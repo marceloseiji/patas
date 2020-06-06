@@ -6,3 +6,5 @@ let conexao = mysql.createPool({
   password = '123456',
   database = 'patas'
 });
+
+module.exports = conexao;
