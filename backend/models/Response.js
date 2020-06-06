@@ -4,4 +4,4 @@ module.exports = class Response {
     this.msg = null;
     this.data = null;
   }
-}
+};

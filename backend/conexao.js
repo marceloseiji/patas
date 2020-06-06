@@ -1,10 +1,11 @@
-const mysql = require('mysql');
+const mysql = require("mysql");
 
 let conexao = mysql.createPool({
-  host: 'localhost',
-  user = 'root',
-  password = '123456',
-  database = 'patas'
+  host: "localhost",
+  user: "root",
+  password: "",
+  database: "patas",
+  port: "3308",
 });
 
 module.exports = conexao;
