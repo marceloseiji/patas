@@ -6,8 +6,16 @@ import "../node_modules/bootstrap/dist/css/bootstrap.css";
 import "../node_modules/jquery/dist/jquery.js";
 import "../node_modules/bootstrap/dist/js/bootstrap.js";
 
+//Importa os serviços de requição
+import donoService from "../services/donoService";
+import Search from "../Search";
+
+Vue.prototype.$donoService = donoService;
+Vue.prototype.$server = Search;
+
 //Importa home para criar a rota
 import Home from "./components/Home";
+import Donos from "./components/Donos";
 
 //Usar o VueRouter
 Vue.use(VueRouter);
@@ -20,6 +28,11 @@ const routes = [
     name: "Home",
     path: "/",
     component: Home,
+  },
+  {
+    name: "Donos",
+    path: "/donos",
+    component: Donos,
   },
 ];
 
