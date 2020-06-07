@@ -1,19 +1,14 @@
 <template>
-  <div class="hello">
-    <h2>Home</h2>
+  <div class="home">
+    <div class="container">
+      <img class="logo" src="../../public/images/patas-logo.png" alt />
+    </div>
   </div>
 </template>
 
 <script>
   export default {
-    name: 'Home',
-    props: {
-      
-    }
-  }
+    name: "Home",
+    props: {}
+  };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped="">
-
-</style>

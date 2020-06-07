@@ -2,6 +2,10 @@ import Vue from "vue";
 import App from "./App.vue";
 import VueRouter from "vue-router";
 
+import "../node_modules/bootstrap/dist/css/bootstrap.css";
+import "../node_modules/jquery/dist/jquery.js";
+import "../node_modules/bootstrap/dist/js/bootstrap.js";
+
 //Importa home para criar a rota
 import Home from "./components/Home";
 
@@ -14,7 +18,7 @@ Vue.config.productionTip = false;
 const routes = [
   {
     name: "Home",
-    path: "/Home",
+    path: "/",
     component: Home,
   },
 ];

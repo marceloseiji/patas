@@ -1,16 +1,21 @@
 <template>
   <div id="app">
-    <Home />
+    <Navbar></Navbar>
+    <router-view></router-view>
   </div>
 </template>
 
-<script>
-  import Home from "./components/Home";
 
+<script>
+  import Navbar from "./components/Navbar";
   export default {
     name: "app",
     components: {
-      Home
+      Navbar
     }
   };
 </script>
+
+<style lang="scss">
+  @import "../styles/css/style.css";
+</style>
