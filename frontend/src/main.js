@@ -10,6 +10,10 @@ import "../node_modules/bootstrap/dist/js/bootstrap.js";
 import donoService from "../services/donoService";
 import { Search } from "../Search";
 
+//Importa simple alert
+import VueSimpleAlert from "vue-simple-alert";
+Vue.use(VueSimpleAlert);
+
 Vue.prototype.$donoService = donoService;
 Vue.prototype.$server = Search;
 
