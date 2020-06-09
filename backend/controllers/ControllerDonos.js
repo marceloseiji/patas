@@ -4,14 +4,13 @@ module.exports = {
   //Adiciona novo dono
   async insert(req, res) {
     let data = {
-      pet_id: req.body.pet_id,
       dono_nome: req.body.dono_nome,
     };
-
+    console.log("data: ", data);
     try {
       db.query("insert into dono SET ?", [data], (err, rows, fileds) => {
         if (!err) {
-          res.send("Added succesfylly");
+          res.send("Added succesflly");
         } else {
           console.log(err);
         }

@@ -14,6 +14,9 @@ import { Search } from "../Search";
 import VueSimpleAlert from "vue-simple-alert";
 Vue.use(VueSimpleAlert);
 
+import VModal from "vue-js-modal";
+Vue.use(VModal);
+
 Vue.prototype.$donoService = donoService;
 Vue.prototype.$server = Search;
 

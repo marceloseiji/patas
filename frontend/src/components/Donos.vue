@@ -25,40 +25,31 @@
       </div>
 
       <!-- Button trigger modal -->
-      <button
-        type="button"
-        class="btn btn-success my-2"
-        data-toggle="modal"
-        data-target="#modalAdd"
-      >
+      <button type="button" class="btn btn-success my-2" v-on:click="show()">
         <i class="fas fa-plus-circle"></i>Adicionar
       </button>
 
       <!-- Modal -->
-      <div
-        class="modal fade"
-        id="modalAdd"
-        tabindex="-1"
-        role="dialog"
-        aria-labelledby="modalDono"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="modalDono">Adicionar Dono</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">...</div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-              <button type="button" class="btn btn-primary">Salvar</button>
-            </div>
-          </div>
+      <modal name="modalAdd">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalDono">Adicionar Dono</h5>
+          <button type="button" class="close" v-on:click="hide()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
         </div>
-      </div>
+        <div class="modal-body">
+          <input
+            class="form-control my-2"
+            type="text"
+            placeholder="Nome"
+            v-model="novo_dono.dono_nome"
+          />
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" v-on:click="hide()">Cancelar</button>
+          <button type="button" class="btn btn-primary" v-on:click="addDono()">Salvar</button>
+        </div>
+      </modal>
     </div>
   </div>
 </template>
@@ -70,10 +61,19 @@
     data() {
       return {
         exibirLista: true,
-        lista: null
+        lista: null,
+        novo_dono: {
+          dono_nome: null
+        }
       };
     },
     methods: {
+      show() {
+        this.$modal.show("modalAdd");
+      },
+      hide() {
+        this.$modal.hide("modalAdd");
+      },
       listarDonos() {
         this.$donoService.getAll().then(response => {
           if (!response.error) {
@@ -101,7 +101,20 @@
           });
         });
       },
-      addDono(id, name) {}
+      addDono() {
+        this.$donoService.addDono(this.novo_dono).then(response => {
+          this.$alert(`run`);
+          if (!response.error) {
+            this.hide();
+            this.novo_dono.dono_nome = "";
+            this.$alert(`${this.novo_dono.dono_nome} adicionado(a)`);
+            this.listarDonos();
+            return;
+          } else {
+            throw new Error(response.error);
+          }
+        });
+      }
     },
     mounted() {
       this.listarDonos();

@@ -1,25 +1,28 @@
 import { Search } from "../Search";
 
-let apiPath = `${Search.getUrlApi().toString()}/donos`;
+let apiPath = `${Search.getUrlApi().toString()}`;
 
 export default class donoService {
   static getAll() {
-    return fetch(apiPath).then((response) => {
+    return fetch(`${apiPath}/donos`).then((response) => {
       return response.json();
     });
   }
 
   static deleteDono(id) {
-    return fetch(`${apiPath}/delete/${id}`, {
+    return fetch(`${apiPath}/donos/delete/${id}`, {
       method: "DELETE",
     }).then((response) => {
       return response;
     });
   }
 
-  static addDono(id) {
+  static addDono(nome) {
+    console.log(nome);
     return fetch(`${apiPath}/donos/insert`, {
-      method: "INSERT",
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(nome),
     }).then((response) => {
       return response;
     });
