@@ -1,45 +1,13 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container">
-      <a class="navbar-brand" href="/">
-        <img src="../../public/images/patas-logo-simple.png" alt="pata" />
-      </a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="/">
-              Início
-              <span class="sr-only">(current)</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/donos">Clientes</a>
-          </li>
-        </ul>
-        <form class="form-inline my-2 my-lg-0">
-          <input
-            class="form-control mr-sm-2"
-            type="search"
-            placeholder="Buscar Clientes"
-            aria-label="Search"
-          />
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Buscar</button>
-        </form>
-      </div>
-    </div>
-  </nav>
+  <div>
+    <q-toolbar class="bg-primary text-white shadow-2">
+      <img src="../../public/images/patas-logo-simple.png" alt="pata" />
+      <span class="material-icons"></span>
+      <q-btn to="/" icon="pets" stretch flat label="Início" />
+      <q-btn to="/donos" icon="face" stretch flat label="Donos" />
+      <q-btn stretch flat label="Link" />
+    </q-toolbar>
+  </div>
 </template>
 
 <script>

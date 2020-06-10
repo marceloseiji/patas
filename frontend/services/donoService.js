@@ -18,9 +18,18 @@ export default class donoService {
   }
 
   static addDono(nome) {
-    console.log(nome);
     return fetch(`${apiPath}/donos/insert`, {
       method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(nome),
+    }).then((response) => {
+      return response;
+    });
+  }
+
+  static updateDono(nome, id) {
+    return fetch(`${apiPath}/donos/update/${id}`, {
+      method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(nome),
     }).then((response) => {

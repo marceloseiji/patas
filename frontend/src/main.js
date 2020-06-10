@@ -2,10 +2,6 @@ import Vue from "vue";
 import App from "./App.vue";
 import VueRouter from "vue-router";
 
-import "../node_modules/bootstrap/dist/css/bootstrap.css";
-import "../node_modules/jquery/dist/jquery.js";
-import "../node_modules/bootstrap/dist/js/bootstrap.js";
-
 //Importa os serviços de requição
 import donoService from "../services/donoService";
 import { Search } from "../Search";
@@ -14,15 +10,13 @@ import { Search } from "../Search";
 import VueSimpleAlert from "vue-simple-alert";
 Vue.use(VueSimpleAlert);
 
-import VModal from "vue-js-modal";
-Vue.use(VModal);
-
 Vue.prototype.$donoService = donoService;
 Vue.prototype.$server = Search;
 
 //Importa componentes para criar a rota
 import Home from "./components/Home";
 import Donos from "./components/Donos";
+import "./quasar";
 
 //Usar o VueRouter
 Vue.use(VueRouter);

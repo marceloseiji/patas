@@ -24,7 +24,6 @@ module.exports = {
   async update(req, res) {
     let id = req.params.id;
     let data = {
-      pet_id: req.body.pet_id,
       dono_nome: req.body.dono_nome,
     };
 

@@ -1,56 +1,78 @@
 <template>
-  <div class="donos">
-    <div class="container">
-      <div class="d-flex my-3">
-        <h2>Donos</h2>
-      </div>
-      <div class="list-group" v-for="item in lista" v-bind:key="item.id">
-        <a class="list-group-item list-group-item-action list-group-item-info my-1">
-          <span class="align-middle">{{ item.nome }}</span>
-          <div class="row float-right">
-            <a class="btn btn-secondary mx-2 btn-sm" :href="`donos/${item.id}`">
-              <i class="fas fa-arrow-circle-right"></i>
-              Ver
-            </a>
-            <button class="btn btn-info mx-2 btn-sm">
-              <i class="fas fa-pen"></i>
-              Atualizar
-            </button>
-            <button class="btn btn-danger mx-2 btn-sm" v-on:click="deleteDono(item.id, item.nome)">
-              <i class="fas fa-trash-alt"></i>
-              Excluir
-            </button>
-          </div>
-        </a>
-      </div>
+  <div class="q-pa-md">
+    <h4>
+      Donos de pet
+      <q-btn class="q-mx-sm" unelevated round color="positive" icon="add" @click="prompt = true" />
+    </h4>
 
-      <!-- Button trigger modal -->
-      <button type="button" class="btn btn-success my-2" v-on:click="show()">
-        <i class="fas fa-plus-circle"></i>Adicionar
-      </button>
+    <q-list bordered separator>
+      <q-item class="q-pa-md" v-for="item in lista" v-bind:key="item.id" v-ripple>
+        <q-item-section avatar>
+          <q-avatar color="teal" text-color="white" icon="person" />
+        </q-item-section>
+        <q-item-section>{{ item.nome }}</q-item-section>
+        <q-btn
+          class="q-mx-sm"
+          unelevated
+          round
+          color="primary"
+          icon="create"
+          @click="promptUpdate = true; update_dono.dono_id = item.id"
+        />
+        <q-btn
+          class="q-mx-sm"
+          unelevated
+          round
+          color="warning"
+          icon="visibility"
+          to="`donos/${item.id}`"
+        />
+        <q-btn
+          class="q-mx-sm"
+          unelevated
+          round
+          color="red"
+          icon="delete"
+          v-on:click="deleteDono(item.id, item.nome)"
+        />
+      </q-item>
+    </q-list>
 
-      <!-- Modal -->
-      <modal name="modalAdd">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalDono">Adicionar Dono</h5>
-          <button type="button" class="close" v-on:click="hide()" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <input
-            class="form-control my-2"
-            type="text"
-            placeholder="Nome"
-            v-model="novo_dono.dono_nome"
-          />
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" v-on:click="hide()">Cancelar</button>
-          <button type="button" class="btn btn-primary" v-on:click="addDono()">Salvar</button>
-        </div>
-      </modal>
-    </div>
+    <!-- Modal Add -->
+    <q-dialog v-model="prompt">
+      <q-card style="min-width: 350px">
+        <q-card-section>
+          <div class="text-h6">Adicionar dono</div>
+        </q-card-section>
+
+        <q-card-section class="q-pt-none">
+          <q-input dense v-model="novo_dono.dono_nome" autofocus @keyup.enter="prompt = false" />
+        </q-card-section>
+
+        <q-card-actions align="right" class="text-primary">
+          <q-btn flat label="Cancelar" v-close-popup />
+          <q-btn color="positive" label="Adicionar" v-close-popup v-on:click="addDono()" />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+
+    <!-- Modal Add -->
+    <q-dialog v-model="promptUpdate">
+      <q-card style="min-width: 350px">
+        <q-card-section>
+          <div class="text-h6">Atualizar dono</div>
+        </q-card-section>
+
+        <q-card-section class="q-pt-none">
+          <q-input dense v-model="update_dono.dono_nome" autofocus @keyup.enter="prompt = false" />
+        </q-card-section>
+
+        <q-card-actions align="right" class="text-primary">
+          <q-btn flat label="Cancelar" v-close-popup />
+          <q-btn color="positive" label="Atualizar" v-close-popup v-on:click="updateDono()" />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 
@@ -64,16 +86,18 @@
         lista: null,
         novo_dono: {
           dono_nome: null
-        }
+        },
+        update_dono: {
+          dono_id: null,
+          dono_nome: null
+        },
+        alert: false,
+        confirm: false,
+        prompt: false,
+        promptUpdate: false
       };
     },
     methods: {
-      show() {
-        this.$modal.show("modalAdd");
-      },
-      hide() {
-        this.$modal.hide("modalAdd");
-      },
       listarDonos() {
         this.$donoService.getAll().then(response => {
           if (!response.error) {
@@ -88,32 +112,44 @@
           }
         });
       },
-      deleteDono(id, name) {
-        this.$confirm(`Deseja excluir ${name}?`).then(() => {
-          this.$donoService.deleteDono(id).then(response => {
-            if (!response.error) {
-              this.$alert(`${name} foi removida`);
-              this.listarDonos();
-              return;
-            } else {
-              throw new Error(response.error);
-            }
-          });
-        });
-      },
-      addDono() {
-        this.$donoService.addDono(this.novo_dono).then(response => {
-          this.$alert(`run`);
+      deleteDono(id) {
+        this.$donoService.deleteDono(id).then(response => {
           if (!response.error) {
-            this.hide();
-            this.novo_dono.dono_nome = "";
-            this.$alert(`${this.novo_dono.dono_nome} adicionado(a)`);
             this.listarDonos();
             return;
           } else {
             throw new Error(response.error);
           }
         });
+      },
+      addDono() {
+        this.$donoService.addDono(this.novo_dono).then(response => {
+          if (!response.error) {
+            this.novo_dono.dono_nome = "";
+            this.listarDonos();
+            return;
+          } else {
+            throw new Error(response.error);
+          }
+        });
+      },
+      updateDono() {
+        console.log(
+          this.update_dono,
+          this.update_dono.dono_id,
+          this.update_dono.dono_nome
+        );
+        this.$donoService
+          .updateDono(this.update_dono, this.update_dono.dono_id)
+          .then(response => {
+            if (!response.error) {
+              this.novo_dono.dono_nome = "";
+              this.listarDonos();
+              return;
+            } else {
+              throw new Error(response.error);
+            }
+          });
       }
     },
     mounted() {
