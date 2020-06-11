@@ -16,6 +16,7 @@ Vue.prototype.$server = Search;
 //Importa componentes para criar a rota
 import Home from "./components/Home";
 import Donos from "./components/Donos";
+import Dono from "./components/Dono";
 import "./quasar";
 
 //Usar o VueRouter
@@ -34,6 +35,11 @@ const routes = [
     name: "Donos",
     path: "/donos",
     component: Donos,
+  },
+  {
+    name: "Dono",
+    path: "/donos/:id",
+    component: Dono,
   },
 ];
 

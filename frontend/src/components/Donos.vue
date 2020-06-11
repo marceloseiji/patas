@@ -25,7 +25,7 @@
           round
           color="warning"
           icon="visibility"
-          to="`donos/${item.id}`"
+          v-bind:to="`/donos/${item.id}`"
         />
         <q-btn
           class="q-mx-sm"
@@ -160,6 +160,17 @@
               throw new Error(response.error);
             }
           });
+      },
+      findDono(id) {
+        this.$donoService.findDono(id).then(response => {
+          if (!response.error) {
+            this.novo_dono.dono_nome = "";
+            this.listarDonos();
+            return;
+          } else {
+            throw new Error(response.error);
+          }
+        });
       }
     },
     mounted() {

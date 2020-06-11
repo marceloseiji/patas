@@ -36,4 +36,12 @@ export default class donoService {
       return response;
     });
   }
+
+  static findDono(id) {
+    return fetch(`${apiPath}/donos/${id}`, {
+      method: "GET",
+    }).then((response) => {
+      return response.json();
+    });
+  }
 }
