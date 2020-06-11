@@ -1,6 +1,6 @@
 <template>
   <div>
-    <q-toolbar class="bg-primary text-white shadow-2">
+    <q-toolbar class="bg-primary text-white shadow-2 navbar">
       <img src="../../public/images/patas-logo-simple.png" alt="pata" />
       <span class="material-icons"></span>
       <q-btn to="/" icon="pets" stretch flat label="Início" />

@@ -46,17 +46,22 @@
         </q-card-section>
 
         <q-card-section class="q-pt-none">
-          <q-input dense v-model="novo_dono.dono_nome" autofocus @keyup.enter="prompt = false" />
+          <q-input
+            dense
+            v-model="novo_dono.dono_nome"
+            autofocus
+            @keyup.enter="prompt = false; addDono()"
+          />
         </q-card-section>
 
         <q-card-actions align="right" class="text-primary">
           <q-btn flat label="Cancelar" v-close-popup />
-          <q-btn color="positive" label="Adicionar" v-close-popup v-on:click="addDono()" />
+          <q-btn color="positive" label="Adicionar" v-close-popup />
         </q-card-actions>
       </q-card>
     </q-dialog>
 
-    <!-- Modal Add -->
+    <!-- Modal Update Dono -->
     <q-dialog v-model="promptUpdate">
       <q-card style="min-width: 350px">
         <q-card-section>
@@ -64,7 +69,12 @@
         </q-card-section>
 
         <q-card-section class="q-pt-none">
-          <q-input dense v-model="update_dono.dono_nome" autofocus @keyup.enter="prompt = false" />
+          <q-input
+            dense
+            v-model="update_dono.dono_nome"
+            autofocus
+            @keyup.enter="updateDono(); promptUpdate = false"
+          />
         </q-card-section>
 
         <q-card-actions align="right" class="text-primary">
@@ -98,6 +108,9 @@
       };
     },
     methods: {
+      confirmAction() {
+        this.modalConfim = true;
+      },
       listarDonos() {
         this.$donoService.getAll().then(response => {
           if (!response.error) {
@@ -112,15 +125,17 @@
           }
         });
       },
-      deleteDono(id) {
-        this.$donoService.deleteDono(id).then(response => {
-          if (!response.error) {
-            this.listarDonos();
-            return;
-          } else {
-            throw new Error(response.error);
-          }
-        });
+      deleteDono(id, nome) {
+        if (confirm(`Excluir ${nome}`)) {
+          this.$donoService.deleteDono(id).then(response => {
+            if (!response.error) {
+              this.listarDonos();
+              return;
+            } else {
+              throw new Error(response.error);
+            }
+          });
+        }
       },
       addDono() {
         this.$donoService.addDono(this.novo_dono).then(response => {
@@ -134,11 +149,6 @@
         });
       },
       updateDono() {
-        console.log(
-          this.update_dono,
-          this.update_dono.dono_id,
-          this.update_dono.dono_nome
-        );
         this.$donoService
           .updateDono(this.update_dono, this.update_dono.dono_id)
           .then(response => {
