@@ -2,6 +2,7 @@ import { Search } from "../Search";
 
 let apiPath = `${Search.getUrlApi().toString()}`;
 
+//DONOS
 export default class donoService {
   static getAll() {
     return fetch(`${apiPath}/donos`).then((response) => {
@@ -42,6 +43,33 @@ export default class donoService {
       method: "GET",
     }).then((response) => {
       return response.json();
+    });
+  }
+
+  //PETS
+  static findAllPets(id) {
+    return fetch(`${apiPath}/donos/pets/${id}`).then((response) => {
+      return response.json();
+    });
+  }
+
+  //AddPet
+  static addPet(petForm) {
+    console.log("donoService");
+    return fetch(`${apiPath}/donos/pets/insert`, {
+      method: "POST",
+      body: petForm,
+    }).then((response) => {
+      return response;
+    });
+  }
+
+  //Delete Pet
+  static deletePet(id, path) {
+    return fetch(`${apiPath}/donos/pets/delete/${id}/${path}`, {
+      method: "DELETE",
+    }).then((response) => {
+      return response;
     });
   }
 }
