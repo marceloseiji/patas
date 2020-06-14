@@ -55,7 +55,6 @@ export default class donoService {
 
   //AddPet
   static addPet(petForm) {
-    console.log("donoService");
     return fetch(`${apiPath}/donos/pets/insert`, {
       method: "POST",
       body: petForm,

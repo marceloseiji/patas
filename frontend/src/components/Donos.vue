@@ -46,17 +46,12 @@
         </q-card-section>
 
         <q-card-section class="q-pt-none">
-          <q-input
-            dense
-            v-model="novo_dono.dono_nome"
-            autofocus
-            @keyup.enter="prompt = false; addDono()"
-          />
+          <q-input dense v-model="novo_dono.dono_nome" autofocus @keyup.enter="addDono()" />
         </q-card-section>
 
         <q-card-actions align="right" class="text-primary">
           <q-btn flat label="Cancelar" v-close-popup />
-          <q-btn color="positive" label="Adicionar" v-close-popup />
+          <q-btn @click="addDono()" color="positive" label="Adicionar" v-close-popup />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -142,6 +137,7 @@
           if (!response.error) {
             this.novo_dono.dono_nome = "";
             this.listarDonos();
+            this.prompt = false;
             return;
           } else {
             throw new Error(response.error);

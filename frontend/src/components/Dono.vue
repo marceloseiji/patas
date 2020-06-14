@@ -19,7 +19,11 @@
             </q-img>
             <q-card-actions>
               <q-btn flat>Action 1</q-btn>
-              <q-btn flat @click="deletePet(item.pet_id, item.pet_nome, item.foto_path)">Excluir Pet</q-btn>
+              <q-btn
+                icon="delete"
+                color="red"
+                @click="deletePet(item.pet_id, item.pet_nome, item.foto_path)"
+              ></q-btn>
             </q-card-actions>
           </q-card>
         </div>
@@ -123,7 +127,7 @@
       addPet() {
         if (this.pet.pet_foto !== null) {
           this.pet.foto_path = `
-              http://localhost:3000/uploads/${Date.now()}-${
+                            http://localhost:3000/uploads/${Date.now()}-${
             this.pet.pet_foto.name
           }`;
           this.pet.foto_path = this.pet.foto_path.replace(/\s/g, "");
