@@ -19,6 +19,16 @@ app.use("/uploads", express.static("uploads"));
 //Para remover arquivos
 const fs = require("fs");
 
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
+  );
+  next();
+});
+
 //Rotas de donos
 app.post("/donos/insert", ControllerDonos.insert);
 app.put("/donos/update/:id", ControllerDonos.update);
@@ -34,6 +44,12 @@ app.use(upload());
 app.get("/donos/pets/:id", ControllerDonos.findAllPets);
 app.post("/donos/pets/insert", ControllerDonos.insertPet);
 app.delete("/donos/pets/delete/:id/:path?", ControllerDonos.deletePet);
+app.put("/donos/pets/update/:id/:path?", ControllerDonos.updatePet);
+
+//Rota para servicos
+app.get("/donos/servicos/:id", ControllerDonos.findAllServicos);
+app.post("/donos/pets/servicos", ControllerDonos.insertServico);
+app.delete("/donos/pets/servico/delete/:id", ControllerDonos.deleteServico);
 
 //Inicia a API na porta 3000
 const port = process.env.port || 3000;

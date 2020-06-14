@@ -53,7 +53,7 @@ export default class donoService {
     });
   }
 
-  //AddPet
+  //Add Pet
   static addPet(petForm) {
     return fetch(`${apiPath}/donos/pets/insert`, {
       method: "POST",
@@ -63,9 +63,47 @@ export default class donoService {
     });
   }
 
+  //Update Pet
+  static updatePet(petForm, id) {
+    return fetch(`${apiPath}/donos/pets/update/${id}`, {
+      method: "PUT",
+      body: petForm,
+    }).then((response) => {
+      return response;
+    });
+  }
+
   //Delete Pet
   static deletePet(id, path) {
     return fetch(`${apiPath}/donos/pets/delete/${id}/${path}`, {
+      method: "DELETE",
+    }).then((response) => {
+      return response;
+    });
+  }
+
+  //SERVICOS
+  //Busca todos os serviços
+  static findAllServices(id) {
+    return fetch(`${apiPath}/donos/servicos/${id}`).then((response) => {
+      return response.json();
+    });
+  }
+  //Add Sereviço
+  static addServico(servico) {
+    console.log("SERVICE addServico");
+    return fetch(`${apiPath}/donos/pets/servicos`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(servico),
+    }).then((response) => {
+      return response;
+    });
+  }
+
+  static deleteServico(id) {
+    console.log("DeleteServico", id);
+    return fetch(`${apiPath}/donos/pets/servico/delete/${id}`, {
       method: "DELETE",
     }).then((response) => {
       return response;

@@ -18,7 +18,34 @@
               </div>
             </q-img>
             <q-card-actions>
-              <q-btn flat>Action 1</q-btn>
+              <q-btn
+                color="positive"
+                icon="import_contacts"
+                @click="promptServicos = true; 
+                petServicos = item.pet_nome; 
+                findAllServices(item.pet_id); 
+                servico.servico_pet_id=item.pet_id; 
+                servico.servico_texto = null;
+                showService = false;
+                btnCancelar = false;
+                btnConfirmar = false;
+                btnAgendar = true;
+                pet_id_recarregar_servicos = item.pet_id;
+                "
+              ></q-btn>
+              <q-btn
+                color="primary"
+                icon="create"
+                @click="promptUpdate = true; 
+                pet.pet_id = item.pet_id;
+                pet.pet_nome = item.pet_nome;
+                pet.pet_foto = item.pet_foto;
+                pet.pet_nascimento = item.pet_nascimento;
+                pet.pet_raca = item.pet_raca;
+                pet.pet_genero = item.pet_genero;
+                pet.foto_path = item.foto_path;
+                "
+              ></q-btn>
               <q-btn
                 icon="delete"
                 color="red"
@@ -68,6 +95,113 @@
         </q-card-actions>
       </q-card>
     </q-dialog>
+
+    <!-- Modal update -->
+    <q-dialog v-model="promptUpdate">
+      <q-card style="min-width: 350px">
+        <q-card-section>
+          <div class="text-h6">Atualizar Pet</div>
+        </q-card-section>
+
+        <q-card-section class="q-pt-none">
+          <q-form method="post" enctype="multipart/formdata">
+            <div class="q-gutter-y-md column" style="max-width: 300px">
+              <q-input clearable filled v-model="pet.pet_nome" label="Nome" :value="pet.pet_nome" />
+              <q-input clearable filled v-model="pet.pet_raca" label="Raça" />
+              <q-option-group
+                :options="pet.pet_genero_options"
+                label="Notifications"
+                type="radio"
+                v-model="pet.pet_genero"
+              />
+              <q-input
+                @input="val => { pet.pet_foto = val[0] }"
+                filled
+                type="file"
+                hint="Selecione a foto"
+                name="myFile"
+                enctype="multipart/form-data"
+                v-model="pet.pet_foto"
+              />
+              <q-input v-model="pet.pet_nascimento" filled type="date" hint="Data de nascimento" />
+            </div>
+          </q-form>
+        </q-card-section>
+
+        <q-card-actions align="right" class="text-primary">
+          <q-btn flat label="Cancelar" v-close-popup />
+          <q-btn color="positive" label="Atualizar" v-close-popup v-on:click="updatePet()" />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
+
+    <!-- Modal Servicos -->
+    <q-dialog v-model="promptServicos">
+      <q-card style="width: 700px">
+        <q-card-section>
+          <div class="text-h6">
+            Histórico de:
+            <b>{{this.petServicos}}</b>
+          </div>
+        </q-card-section>
+
+        <q-card-section class="q-pt-none">
+          <div class="q-pa-md">
+            <q-list bordered separator>
+              <q-item v-ripple v-for="item in this.servicos" :key="item.servico_id">
+                <q-item-section>
+                  <q-item-label>{{item.servico_descricao}}</q-item-label>
+                  <q-item-label caption>Serviço</q-item-label>
+                </q-item-section>
+
+                <q-item-section avatar>
+                  <q-btn
+                    round
+                    icon="delete"
+                    color="red"
+                    @click="deleteServico(item.servico_id, item.pet_id)"
+                  ></q-btn>
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </div>
+          <q-form method="post" enctype="multipart/formdata"></q-form>
+        </q-card-section>
+
+        <q-card-section class="q-pt-none" v-if="showService">
+          <div class="q-pa-md">
+            <q-input v-model="servico.servico_texto" filled type="textarea" />
+          </div>
+        </q-card-section>
+
+        <q-card-actions align="right" class="text-primary">
+          <q-btn flat label="Cancelar" v-close-popup />
+          <q-btn
+            color="positive"
+            label="Agendar"
+            v-on:click="showService = true; btnAgendar = false; btnConfirmar = true; btnCancelar = true"
+            v-if="btnAgendar"
+          />
+          <q-btn
+            color="positive"
+            label="Confirmar"
+            v-if="btnConfirmar"
+            @click="addServico(pet_id_recarregar_servicos)
+            showService = false
+            btnCancelar = false
+            btnConfirmar = false
+            btnAgendar = true
+            "
+          />
+          <q-btn
+            color="warning"
+            label="Não agendar"
+            v-on:click="showService = false; btnAgendar = true; btnConfirmar = false; btnCancelar = false"
+            v-if="btnCancelar"
+          />
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 
@@ -83,6 +217,10 @@
         },
         lista: null,
         prompt: null,
+        promptUpdate: null,
+        promptServicos: null,
+        petServicos: null,
+        pet_id_recarregar_servicos: null,
         pet: {
           pet_nome: null,
           pet_nascimento: null,
@@ -99,7 +237,16 @@
           pet_slug: null
         },
         petForm: "",
-        path: null
+        path: null,
+        servicos: null,
+        showService: false,
+        btnAgendar: true,
+        btnCancelar: false,
+        btnConfirmar: false,
+        servico: {
+          servico_texto: null,
+          servico_pet_id: null
+        }
       };
     },
     methods: {
@@ -127,7 +274,7 @@
       addPet() {
         if (this.pet.pet_foto !== null) {
           this.pet.foto_path = `
-                            http://localhost:3000/uploads/${Date.now()}-${
+                                                                                                                                                                                                                                                                                                                                        http://localhost:3000/uploads/${Date.now()}-${
             this.pet.pet_foto.name
           }`;
           this.pet.foto_path = this.pet.foto_path.replace(/\s/g, "");
@@ -160,6 +307,36 @@
           }
         });
       },
+      updatePet() {
+        this.petForm = new FormData();
+        this.petForm.append("pet_nome", this.pet.pet_nome);
+        this.petForm.append("pet_nascimento", this.pet.pet_nascimento);
+        this.petForm.append("pet_foto", this.pet.pet_foto);
+        this.petForm.append("pet_raca", this.pet.pet_raca);
+        this.petForm.append("pet_genero", this.pet.pet_genero);
+        this.petForm.append("dono_id", this.dono.id);
+        this.petForm.append("foto_path", this.pet.foto_path);
+
+        this.$donoService
+          .updatePet(this.petForm, this.pet.pet_id)
+          .then(response => {
+            if (!response.error) {
+              (this.petForm = null),
+                (this.pet.pet_nome = ""),
+                (this.pet.pet_nascimento = ""),
+                (this.pet.pet_foto = null),
+                (this.pet.pet_raca = ""),
+                (this.pet.pet_genero = ""),
+                (this.pet.pet_genero_options.value = null);
+              this.pet.foto_path = "";
+              this.findAllPets();
+              location.reload();
+              return;
+            } else {
+              throw new Error(response.error);
+            }
+          });
+      },
       deletePet(id, nome, foto_path) {
         this.path = encodeURIComponent(foto_path);
         if (confirm(`Excluir ${nome}`)) {
@@ -172,6 +349,42 @@
             }
           });
         }
+      },
+      findAllServices(id) {
+        this.$donoService.findAllServices(id).then(response => {
+          if (!response.error) {
+            this.servicos = response;
+            return;
+          } else {
+            throw new Error(response.error);
+          }
+        });
+      },
+      addServico(pet_id) {
+        if (this.servico.servico_texto == null) {
+          alert("Serviço está vazio");
+        } else {
+          this.$donoService.addServico(this.servico).then(response => {
+            if (!response.error) {
+              this.servico.servico_texto = "";
+              this.findAllServices(pet_id);
+              return;
+            } else {
+              throw new Error(response.error);
+            }
+          });
+        }
+      },
+      deleteServico(id, pet_id) {
+        this.$donoService.deleteServico(id).then(response => {
+          if (!response.error) {
+            alert("Serviço removido");
+            this.findAllServices(pet_id);
+            return;
+          } else {
+            throw new Error(response.error);
+          }
+        });
       }
     },
     mounted() {
