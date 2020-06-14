@@ -114,7 +114,6 @@
         this.$donoService.findAllPets(this.$route.params.id).then(response => {
           if (!response.error) {
             this.lista = response;
-            console.log(this.lista);
             return;
           } else {
             throw new Error(response.error);
@@ -123,7 +122,11 @@
       },
       addPet() {
         if (this.pet.pet_foto !== null) {
-          this.pet.foto_path = `http://localhost:3000/uploads/${this.pet.pet_nome}-${this.pet.pet_foto.name}`;
+          this.pet.foto_path = `
+              http://localhost:3000/uploads/${Date.now()}-${
+            this.pet.pet_foto.name
+          }`;
+          this.pet.foto_path = this.pet.foto_path.replace(/\s/g, "");
         } else {
           this.pet.foto_path = "";
         }

@@ -127,15 +127,16 @@ module.exports = {
   //Adiciona novo PET
   async insertPet(req, res) {
     let data = req.body;
-
     //Adiciona foto no ./uploads
-    console.log(req.files == null);
     if (req.files != null) {
       let file = req.files.pet_foto,
-        filename = `${req.body.pet_nome}-${file.name}`;
+        filename = req.body.foto_path;
+      filename = filename.replace(/\s/g, "").split("uploads")[1];
       file.mv("uploads/" + filename, (err) => {
         if (err) {
           console.log(err);
+        } else {
+          console.log("File: ", filename, " uploaded!");
         }
       });
     }
@@ -159,7 +160,7 @@ module.exports = {
 
     if (req.params.path != null) {
       var path = `./uploads${req.params.path.split("uploads")[1]}`;
-      fs.unlinkSync(path);
+      // fs.unlinkSync(path);
     }
 
     try {
