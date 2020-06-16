@@ -212,7 +212,7 @@ module.exports = {
 
     if (req.params.path != null) {
       var path = `./uploads${req.params.path.split("uploads")[1]}`;
-      fs.unlinkSync(path);
+      // fs.unlinkSync(path);
     }
 
     try {
@@ -258,8 +258,6 @@ module.exports = {
       pet_id: req.body.servico_pet_id,
     };
 
-    console.log("Controller insertServico: ", req.body);
-
     try {
       db.query("insert into servico SET ?", [data], (err, rows, fileds) => {
         if (!err) {
@@ -281,6 +279,28 @@ module.exports = {
         (err, rows, fileds) => {
           if (!err) {
             res.send("Deleted succesfully");
+          } else {
+            console.log(err);
+          }
+        }
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  },
+  async updateServico(req, res) {
+    let data = {
+      servico_descricao: req.body.servico_texto,
+      servico_id: req.body.servico_id,
+    };
+
+    try {
+      db.query(
+        "update servico set ? where servico_id = ?",
+        [data, data.servico_id],
+        (err, rows, fileds) => {
+          if (!err) {
+            res.send("Updated succesfully");
           } else {
             console.log(err);
           }

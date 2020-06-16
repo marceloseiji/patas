@@ -1,7 +1,24 @@
 <template>
   <div class="q-pa-md container dono">
     <h4>Cliente: {{this.dono.nome}}</h4>
-    <q-btn color="positive q-my-sm" icon-right="add" label="Add Pet" @click="prompt = true" />
+    <!-- Btn adicionar pet -->
+    <q-btn
+      color="positive q-my-sm"
+      icon-right="add"
+      label="Add Pet"
+      @click="
+      prompt = true
+      petForm=null
+      pet.pet_nome=null
+      pet.pet_nascimento
+      pet.pet_foto=null
+      pet.pet_raca=null
+      pet.pet_genero=null
+      pet.pet_genero_options.value=null
+      pet.foto_path=null
+      "
+    />
+
     <div class="row">
       <div class="col-12 col-md-4" v-for="item in lista" v-bind:key="item.id">
         <div class="q-pa-md">
@@ -26,13 +43,20 @@
                 findAllServices(item.pet_id); 
                 servico.servico_pet_id=item.pet_id; 
                 servico.servico_texto = null;
+                update_servico.servico_texto = null
                 showService = false;
+                showServiceUpdate = false;
                 btnCancelar = false;
                 btnConfirmar = false;
                 btnAgendar = true;
                 pet_id_recarregar_servicos = item.pet_id;
                 "
-              ></q-btn>
+              >
+                <q-tooltip
+                  content-class="bg-positive"
+                  content-style="font-size: 14px"
+                >Histórico do Pet</q-tooltip>
+              </q-btn>
               <q-btn
                 color="primary"
                 icon="create"
@@ -45,12 +69,16 @@
                 pet.pet_genero = item.pet_genero;
                 pet.foto_path = item.foto_path;
                 "
-              ></q-btn>
+              >
+                <q-tooltip content-class="bg-primary" content-style="font-size: 14px">Atualizar Pet</q-tooltip>
+              </q-btn>
               <q-btn
                 icon="delete"
                 color="red"
                 @click="deletePet(item.pet_id, item.pet_nome, item.foto_path)"
-              ></q-btn>
+              >
+                <q-tooltip content-class="bg-red" content-style="font-size: 14px">Excluir Pet</q-tooltip>
+              </q-btn>
             </q-card-actions>
           </q-card>
         </div>
@@ -154,51 +182,96 @@
                   <q-item-label caption>Serviço</q-item-label>
                 </q-item-section>
 
-                <q-item-section avatar>
+                <!-- Abre input text para atualizar o servico -->
+                <div class="row avatar">
+                  <q-btn
+                    class="q-mx-sm"
+                    round
+                    icon="edit"
+                    color="orange"
+                    @click="showServiceUpdate = true
+                    btnAgendar = false
+                    btnCancelar = true
+                    btnConfirmarUpdate = true
+                    btnConfirmar = false
+                    showService = false
+                    update_servico.servico_id = item.servico_id
+                    update_servico.servico_texto = item.servico_descricao
+                    "
+                  ></q-btn>
                   <q-btn
                     round
                     icon="delete"
                     color="red"
                     @click="deleteServico(item.servico_id, item.pet_id)"
                   ></q-btn>
-                </q-item-section>
+                </div>
               </q-item>
             </q-list>
           </div>
           <q-form method="post" enctype="multipart/formdata"></q-form>
         </q-card-section>
 
+        <!-- Input para adicionar servico -->
         <q-card-section class="q-pt-none" v-if="showService">
           <div class="q-pa-md">
-            <q-input v-model="servico.servico_texto" filled type="textarea" />
+            <q-item-label caption>Adicionar um novo serviço</q-item-label>
+            <q-input v-model="servico.servico_texto" filled autogrow type="textarea" />
+          </div>
+        </q-card-section>
+
+        <!-- Input para update do servico -->
+        <q-card-section class="q-pt-none" v-if="showServiceUpdate">
+          <div class="q-pa-md">
+            <q-item-label caption>Atualizar serviço</q-item-label>
+            <q-input v-model="update_servico.servico_texto" filled autogrow type="textarea" />
           </div>
         </q-card-section>
 
         <q-card-actions align="right" class="text-primary">
-          <q-btn flat label="Cancelar" v-close-popup />
+          <!-- Abre text input para agendar servico -->
           <q-btn
             color="positive"
             label="Agendar"
             v-on:click="showService = true; btnAgendar = false; btnConfirmar = true; btnCancelar = true"
             v-if="btnAgendar"
           />
+
+          <!-- Confirma Atualizar o servico -->
+          <q-btn
+            color="positive"
+            label="Confirmar"
+            v-if="btnConfirmarUpdate"
+            @click="updateServico(pet_id_recarregar_servicos)
+            showServiceUpdate = false
+            btnConfirmar = false
+            btnConfirmarUpdate = false
+            btnAgendar = true
+            btnCancelar = false
+            "
+          />
+
+          <!-- Confirma Adiconar novo servico -->
           <q-btn
             color="positive"
             label="Confirmar"
             v-if="btnConfirmar"
             @click="addServico(pet_id_recarregar_servicos)
             showService = false
-            btnCancelar = false
             btnConfirmar = false
             btnAgendar = true
+            btnCancelar = false
             "
           />
+          <!-- Cancela adicionar servico e atualizar servico -->
           <q-btn
             color="warning"
-            label="Não agendar"
-            v-on:click="showService = false; btnAgendar = true; btnConfirmar = false; btnCancelar = false"
+            label="Cancelar"
+            v-on:click="showService = false; showServiceUpdate = false; btnAgendar = true; btnConfirmar = false; btnConfirmarUpdate = false; btnCancelar = false"
             v-if="btnCancelar"
           />
+          <!-- Fecha modal -->
+          <q-btn color="orange" label="Fechar" v-close-popup />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -240,12 +313,19 @@
         path: null,
         servicos: null,
         showService: false,
+        showServiceUpdate: false,
         btnAgendar: true,
         btnCancelar: false,
         btnConfirmar: false,
+        btnConfirmarUpdate: false,
         servico: {
           servico_texto: null,
           servico_pet_id: null
+        },
+        servico_text_temporary: null,
+        update_servico: {
+          servico_texto: null,
+          servico_id: null
         }
       };
     },
@@ -274,7 +354,7 @@
       addPet() {
         if (this.pet.pet_foto !== null) {
           this.pet.foto_path = `
-                                                                                                                                                                                                                                                                                                                                        http://localhost:3000/uploads/${Date.now()}-${
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      http://localhost:3000/uploads/${Date.now()}-${
             this.pet.pet_foto.name
           }`;
           this.pet.foto_path = this.pet.foto_path.replace(/\s/g, "");
@@ -378,13 +458,31 @@
       deleteServico(id, pet_id) {
         this.$donoService.deleteServico(id).then(response => {
           if (!response.error) {
-            alert("Serviço removido");
-            this.findAllServices(pet_id);
-            return;
+            if (confirm("Remover serviço?")) {
+              this.findAllServices(pet_id);
+              return;
+            }
           } else {
             throw new Error(response.error);
           }
         });
+      },
+      updateServico(pet_id) {
+        if (this.update_servico.servico_texto == null) {
+          alert("Preencha o campo de atualização");
+        } else {
+          this.$donoService.updateServico(this.update_servico).then(response => {
+            if (!response.error) {
+              this.findAllServices(pet_id);
+              this.servico.servico_texto = null;
+              this.servico_update.servico_texto = null;
+              this.servico_update.servico_id = null;
+              return;
+            } else {
+              throw new Error(response.error);
+            }
+          });
+        }
       }
     },
     mounted() {

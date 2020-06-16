@@ -91,7 +91,6 @@ export default class donoService {
   }
   //Add Sereviço
   static addServico(servico) {
-    console.log("SERVICE addServico");
     return fetch(`${apiPath}/donos/pets/servicos`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -102,9 +101,19 @@ export default class donoService {
   }
 
   static deleteServico(id) {
-    console.log("DeleteServico", id);
-    return fetch(`${apiPath}/donos/pets/servico/delete/${id}`, {
+    return fetch(`${apiPath}/donos/pets/servicos/delete/${id}`, {
       method: "DELETE",
+    }).then((response) => {
+      return response;
+    });
+  }
+
+  //Add Sereviço
+  static updateServico(servico) {
+    return fetch(`${apiPath}/donos/pets/servicos/update`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(servico),
     }).then((response) => {
       return response;
     });

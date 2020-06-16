@@ -2,7 +2,14 @@
   <div class="q-pa-md">
     <h4>
       Donos de pet
-      <q-btn class="q-mx-sm" unelevated round color="positive" icon="add" @click="prompt = true" />
+      <q-btn class="q-mx-sm" unelevated round color="positive" icon="add" @click="prompt = true">
+        <q-tooltip
+          content-class="bg-positive"
+          anchor="center right"
+          self="center left"
+          content-style="font-size: 14px"
+        >Adicionar Dono</q-tooltip>
+      </q-btn>
     </h4>
 
     <q-list bordered separator>
@@ -11,6 +18,7 @@
           <q-avatar color="teal" text-color="white" icon="person" />
         </q-item-section>
         <q-item-section>{{ item.nome }}</q-item-section>
+
         <q-btn
           class="q-mx-sm"
           unelevated
@@ -18,7 +26,15 @@
           color="primary"
           icon="create"
           @click="promptUpdate = true; update_dono.dono_id = item.id"
-        />
+        >
+          <q-tooltip
+            content-class="bg-primary"
+            anchor="top middle"
+            self="bottom middle"
+            content-style="font-size: 14px"
+          >Atualizar</q-tooltip>
+        </q-btn>
+
         <q-btn
           class="q-mx-sm"
           unelevated
@@ -26,7 +42,15 @@
           color="warning"
           icon="visibility"
           v-bind:to="`/donos/${item.id}`"
-        />
+        >
+          <q-tooltip
+            content-class="bg-warning text-black"
+            anchor="top middle"
+            self="bottom middle"
+            content-style="font-size: 14px"
+          >Ver cliente</q-tooltip>
+        </q-btn>
+
         <q-btn
           class="q-mx-sm"
           unelevated
@@ -34,7 +58,14 @@
           color="red"
           icon="delete"
           v-on:click="deleteDono(item.id, item.nome)"
-        />
+        >
+          <q-tooltip
+            content-class="bg-red"
+            anchor="top middle"
+            self="bottom middle"
+            content-style="font-size: 14px"
+          >Excluir</q-tooltip>
+        </q-btn>
       </q-item>
     </q-list>
 

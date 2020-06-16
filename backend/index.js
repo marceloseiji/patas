@@ -49,7 +49,8 @@ app.put("/donos/pets/update/:id/:path?", ControllerDonos.updatePet);
 //Rota para servicos
 app.get("/donos/servicos/:id", ControllerDonos.findAllServicos);
 app.post("/donos/pets/servicos", ControllerDonos.insertServico);
-app.delete("/donos/pets/servico/delete/:id", ControllerDonos.deleteServico);
+app.delete("/donos/pets/servicos/delete/:id", ControllerDonos.deleteServico);
+app.put("/donos/pets/servicos/update", ControllerDonos.updateServico);
 
 //Inicia a API na porta 3000
 const port = process.env.port || 3000;
