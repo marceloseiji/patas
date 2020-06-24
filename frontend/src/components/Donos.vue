@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md">
+  <div class="donos padding-top container-proj">
     <h4>
       Donos de pet
       <q-btn class="q-mx-sm" unelevated round color="positive" icon="add" @click="prompt = true">

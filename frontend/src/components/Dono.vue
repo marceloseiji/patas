@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md container dono">
+  <div class="dono padding-top container-proj">
     <h4>Cliente: {{this.dono.nome}}</h4>
     <!-- Btn adicionar pet -->
     <q-btn
@@ -354,7 +354,7 @@
       addPet() {
         if (this.pet.pet_foto !== null) {
           this.pet.foto_path = `
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      http://localhost:3000/uploads/${Date.now()}-${
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          http://localhost:3000/uploads/${Date.now()}-${
             this.pet.pet_foto.name
           }`;
           this.pet.foto_path = this.pet.foto_path.replace(/\s/g, "");

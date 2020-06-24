@@ -1,19 +1,33 @@
 <template>
-  <div class="home">
+  <div class="home padding-top">
     <div class>
       <q-carousel
         animated
         v-model="slide"
         navigation
         infinite
-        autoplay
         arrows
         transition-prev="slide-right"
         transition-next="slide-left"
       >
-        <q-carousel-slide :name="1" img-src="http://localhost:3000/uploads/img-carousel01.jpg" />
-        <q-carousel-slide :name="2" img-src="http://localhost:3000/uploads/img-carousel02.jpg" />
-        <q-carousel-slide :name="3" img-src="http://localhost:3000/uploads/img-carousel03.jpg" />
+        <q-carousel-slide :name="1" img-src="http://localhost:3000/uploads/img-carousel01.jpg">
+          <div class="absolute-bottom caption container-proj">
+            <div class="text-h2">Seu PetShop</div>
+            <div class="text-subtitle1">Online!</div>
+          </div>
+        </q-carousel-slide>
+        <q-carousel-slide :name="2" img-src="http://localhost:3000/uploads/img-carousel02.jpg">
+          <div class="absolute-bottom caption container-proj">
+            <div class="text-h2">Cuide do seu pet</div>
+            <div class="text-subtitle1">Com os melhores profissionais!</div>
+          </div>
+        </q-carousel-slide>
+        <q-carousel-slide :name="3" img-src="http://localhost:3000/uploads/img-carousel03.jpg">
+          <div class="absolute-bottom caption container-proj">
+            <div class="text-h2">Escolha o melhor e o melhor preço</div>
+            <div class="text-subtitle1">Facilite sua vida!</div>
+          </div>
+        </q-carousel-slide>
       </q-carousel>
     </div>
     <div class="container-proj">
@@ -43,7 +57,7 @@
             <b>Front End:</b> Vue JS + Quasar Framework
           </div>
           <div class="col-sm-9 col-12 text-body1">
-            <b>Back End:</b> Node JS
+            <b>Back End:</b> Node JS + SQL
           </div>
         </div>
         <div class="col">
