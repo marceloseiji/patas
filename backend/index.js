@@ -52,6 +52,15 @@ app.post("/donos/pets/servicos", ControllerDonos.insertServico);
 app.delete("/donos/pets/servicos/delete/:id", ControllerDonos.deleteServico);
 app.put("/donos/pets/servicos/update", ControllerDonos.updateServico);
 
+// To production
+if (process.env.NODE_ENV === "production") {
+  // Static folder of vue.js
+  app.use(express.static(__dirname + "/public/"));
+
+  // SPA
+  app.get(/.*/, (req, res) => res.sendFile(__dirname + "/public/index.html"));
+}
+
 //Inicia a API na porta 3000
 const port = process.env.port || 3000;
 app.listen(port, () => {
