@@ -1,5 +1,41 @@
+#app {
+  .router-btn {
+    text-decoration: none;
+  }
+  .router-link-exact-active .q-btn__content {
+    color: #62d1e0;
+  }
+  .container-proj {
+    padding: 0 15vw;
+    h6 {
+      margin-bottom: 10px;
+    }
+  }
+  .padding-top {
+    padding-top: 80px;
+  }
+  .home {
+    .q-carousel {
+      height: 480px;
+      .caption {
+        color: white;
+        padding-top: 20px;
+        height: 30%;
+        background-color: #00112945;
+      }
+    }
+  }
+  .donos {
+  }
+}
 .navbar {
+  background-color: #ffb63d;
+  z-index: 1;
   img {
-    height: 150px;
+    height: 50px;
+  }
+  .isActive {
+    color: red;
+    background: red;
   }
 }
