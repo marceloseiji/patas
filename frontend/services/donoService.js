@@ -1,6 +1,6 @@
-import { Search } from "../Search";
+//import { Search } from "../Search";
 
-let apiPath = `${Search.getUrlApi().toString()}`;
+let apiPath = "";
 
 //DONOS
 export default class donoService {
