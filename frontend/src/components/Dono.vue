@@ -49,7 +49,8 @@
                   showService = false;
                   showServiceUpdate = false;
                   btnCancelar = false;
-                  btnConfirmar = false;
+                  btnConfirmarAgendamento = false;
+                  btnConfirmarUpdate = false;
                   btnAgendar = true;
                   pet_id_recarregar_servicos = item.pet_id;
                 "
@@ -244,7 +245,7 @@
                       btnAgendar = false;
                       btnCancelar = true;
                       btnConfirmarUpdate = true;
-                      btnConfirmar = false;
+                      btnConfirmarAgendamento = false;
                       showService = false;
                       update_servico.servico_id = item.servico_id;
                       update_servico.servico_texto = item.servico_descricao;
@@ -297,49 +298,50 @@
             v-on:click="
               showService = true;
               btnAgendar = false;
-              btnConfirmar = true;
+              btnConfirmarAgendamento = true;
               btnCancelar = true;
             "
             v-if="btnAgendar"
           />
 
+          <!-- Confirma agendar novo servico -->
+          <q-btn
+            color="positive"
+            label="Confirmar agendamento"
+            v-if="btnConfirmarAgendamento"
+            @click="
+              addServico(pet_id_recarregar_servicos);
+              showService = false;
+              btnConfirmarAgendamento = false;
+              btnAgendar = true;
+              btnCancelar = false;
+            "
+          />
+
           <!-- Confirma Atualizar o servico -->
           <q-btn
             color="positive"
-            label="Confirmar"
+            label="Atualizar"
             v-if="btnConfirmarUpdate"
             @click="
               updateServico(pet_id_recarregar_servicos);
               showServiceUpdate = false;
-              btnConfirmar = false;
+              btnConfirmarAgendamento = false;
               btnConfirmarUpdate = false;
               btnAgendar = true;
               btnCancelar = false;
             "
           />
 
-          <!-- Confirma Adiconar novo servico -->
-          <q-btn
-            color="positive"
-            label="Confirmar"
-            v-if="btnConfirmar"
-            @click="
-              addServico(pet_id_recarregar_servicos);
-              showService = false;
-              btnConfirmar = false;
-              btnAgendar = true;
-              btnCancelar = false;
-            "
-          />
           <!-- Cancela adicionar servico e atualizar servico -->
           <q-btn
-            color="warning"
+            color="primary"
             label="Cancelar"
             v-on:click="
               showService = false;
               showServiceUpdate = false;
               btnAgendar = true;
-              btnConfirmar = false;
+              btnConfirmarAgendamento = false;
               btnConfirmarUpdate = false;
               btnCancelar = false;
             "
@@ -394,7 +396,7 @@ export default {
       showServiceUpdate: false,
       btnAgendar: true,
       btnCancelar: false,
-      btnConfirmar: false,
+      btnConfirmarAgendamento: false,
       btnConfirmarUpdate: false,
       servico: {
         servico_texto: null,
