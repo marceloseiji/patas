@@ -1,0 +1,26 @@
+#app .router-btn {
+  text-decoration: none;
+}
+#app .router-link-exact-active .q-btn__content {
+  color: #62d1e0;
+}
+#app .container-proj {
+  padding: 0 15vw;
+}
+#app .container-proj h6 {
+  margin-bottom: 10px;
+}
+#app .padding-top {
+  padding-top: 80px;
+}
+#app .home .q-carousel {
+  height: 480px;
+}
+#app .home .q-carousel .caption {
+  color: white;
+  padding-top: 20px;
+  height: 30%;
+  background-color: #00112945;
+}
+
+/*# sourceMappingURL=style.css.map */
