@@ -6,10 +6,6 @@ import VueRouter from "vue-router";
 import donoService from "../services/donoService";
 import { Search } from "../Search";
 
-//Importa simple alert
-import VueSimpleAlert from "vue-simple-alert";
-Vue.use(VueSimpleAlert);
-
 Vue.prototype.$donoService = donoService;
 Vue.prototype.$server = Search;
 
@@ -17,6 +13,7 @@ Vue.prototype.$server = Search;
 import Home from "./components/Home";
 import Donos from "./components/Donos";
 import Dono from "./components/Dono";
+import Register from "./components/Register.vue";
 import "./quasar";
 
 //Usar o VueRouter
@@ -40,6 +37,11 @@ const routes = [
     name: "Dono",
     path: "/donos/:id",
     component: Dono,
+  },
+  {
+    name: "Register",
+    path: "/register",
+    component: Register,
   },
 ];
 

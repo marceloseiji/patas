@@ -14,7 +14,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss">
-@import "../styles/css/style.css";
-</style>
