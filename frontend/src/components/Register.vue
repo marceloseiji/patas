@@ -1,11 +1,13 @@
 <template>
   <section class="register container-proj">
-    <div
-      class="register-form absolute-center q-pa-md rounded-borders shadow-11"
-      style="min-width: 300px"
-    >
-      <div class="text-h5 q-mb-xl text-primary">Cadastro</div>
-      <q-form @submit="onSubmit" @reset="onReset" class="q-gutter-md">
+    <div class="register-form">
+      <q-form
+        @submit="onSubmit"
+        @reset="onReset"
+        class="fixed-center shadow-10 q-pa-md rounded-borders"
+        style="min-width: 300px"
+      >
+        <div class="text-primary text-h5 q-my-md">Register</div>
         <q-input
           color="primary"
           filled
