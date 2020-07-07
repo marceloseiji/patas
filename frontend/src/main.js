@@ -4,9 +4,11 @@ import VueRouter from "vue-router";
 
 //Importa os serviços de requição
 import donoService from "../services/donoService";
+import userService from "../services/userService";
 import { Search } from "../Search";
 
 Vue.prototype.$donoService = donoService;
+Vue.prototype.$userService = userService;
 Vue.prototype.$server = Search;
 
 //Importa componentes para criar a rota
@@ -14,6 +16,7 @@ import Home from "./components/Home";
 import Donos from "./components/Donos";
 import Dono from "./components/Dono";
 import Register from "./components/Register.vue";
+import Login from "./components/Login.vue";
 import "./quasar";
 
 //Usar o VueRouter
@@ -42,6 +45,11 @@ const routes = [
     name: "Register",
     path: "/register",
     component: Register,
+  },
+  {
+    name: "Login",
+    path: "/login",
+    component: Login,
   },
 ];
 

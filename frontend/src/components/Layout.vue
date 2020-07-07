@@ -12,6 +12,14 @@
         <router-link class="router-btn" to="/donos">
           <q-btn icon="face" stretch flat label="Donos" color="white" />
         </router-link>
+
+        <router-link class="router-btn" to="/register">
+          <q-btn icon="how_to_reg" stretch flat label="Registro de usuário" color="white" />
+        </router-link>
+
+        <router-link class="router-btn" to="/login">
+          <q-btn icon="login" stretch flat label="Logar" color="white" />
+        </router-link>
       </q-toolbar>
     </q-header>
 
