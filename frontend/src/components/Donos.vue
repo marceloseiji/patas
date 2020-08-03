@@ -23,6 +23,22 @@
           class="q-mx-sm"
           unelevated
           round
+          color="positive"
+          icon="visibility"
+          v-bind:to="`/donos/${item.id}`"
+        >
+          <q-tooltip
+            content-class="bg-positive text-white"
+            anchor="top middle"
+            self="bottom middle"
+            content-style="font-size: 14px"
+          >Ver cliente</q-tooltip>
+        </q-btn>
+
+        <q-btn
+          class="q-mx-sm"
+          unelevated
+          round
           color="primary"
           icon="create"
           @click="promptUpdate = true; update_dono.dono_id = item.id"
@@ -33,22 +49,6 @@
             self="bottom middle"
             content-style="font-size: 14px"
           >Atualizar</q-tooltip>
-        </q-btn>
-
-        <q-btn
-          class="q-mx-sm"
-          unelevated
-          round
-          color="warning"
-          icon="visibility"
-          v-bind:to="`/donos/${item.id}`"
-        >
-          <q-tooltip
-            content-class="bg-warning text-black"
-            anchor="top middle"
-            self="bottom middle"
-            content-style="font-size: 14px"
-          >Ver cliente</q-tooltip>
         </q-btn>
 
         <q-btn
@@ -113,85 +113,48 @@
 </template>
 
 <script>
-  export default {
-    name: "Donos",
-    props: {},
-    data() {
-      return {
-        exibirLista: true,
-        lista: null,
-        novo_dono: {
-          dono_nome: null
-        },
-        update_dono: {
-          dono_id: null,
-          dono_nome: null
-        },
-        alert: false,
-        confirm: false,
-        prompt: false,
-        promptUpdate: false
-      };
+export default {
+  name: "Donos",
+  props: {},
+  data() {
+    return {
+      exibirLista: true,
+      lista: null,
+      novo_dono: {
+        dono_nome: null
+      },
+      update_dono: {
+        dono_id: null,
+        dono_nome: null
+      },
+      alert: false,
+      confirm: false,
+      prompt: false,
+      promptUpdate: false
+    };
+  },
+  methods: {
+    confirmAction() {
+      this.modalConfim = true;
     },
-    methods: {
-      confirmAction() {
-        this.modalConfim = true;
-      },
-      listarDonos() {
-        this.$donoService.getAll().then(response => {
-          if (!response.error) {
-            this.lista = response.map(obj => {
-              return {
-                nome: obj.dono_nome,
-                id: obj.dono_id
-              };
-            });
-          } else {
-            throw new Error(response.error);
-          }
-        });
-      },
-      deleteDono(id, nome) {
-        if (confirm(`Excluir ${nome}`)) {
-          this.$donoService.deleteDono(id).then(response => {
-            if (!response.error) {
-              this.listarDonos();
-              return;
-            } else {
-              throw new Error(response.error);
-            }
+    listarDonos() {
+      this.$donoService.getAll().then(response => {
+        if (!response.error) {
+          this.lista = response.map(obj => {
+            return {
+              nome: obj.dono_nome,
+              id: obj.dono_id
+            };
           });
+        } else {
+          throw new Error(response.error);
         }
-      },
-      addDono() {
-        this.$donoService.addDono(this.novo_dono).then(response => {
+      });
+    },
+    deleteDono(id, nome) {
+      if (confirm(`Excluir ${nome}`)) {
+        this.$donoService.deleteDono(id).then(response => {
           if (!response.error) {
-            this.novo_dono.dono_nome = "";
-            this.listarDonos();
-            this.prompt = false;
-            return;
-          } else {
-            throw new Error(response.error);
-          }
-        });
-      },
-      updateDono() {
-        this.$donoService
-          .updateDono(this.update_dono, this.update_dono.dono_id)
-          .then(response => {
-            if (!response.error) {
-              this.novo_dono.dono_nome = "";
-              this.listarDonos();
-              return;
-            } else {
-              throw new Error(response.error);
-            }
-          });
-      },
-      findDono(id) {
-        this.$donoService.findDono(id).then(response => {
-          if (!response.error) {
-            this.novo_dono.dono_nome = "";
             this.listarDonos();
             return;
           } else {
@@ -200,8 +163,45 @@
         });
       }
     },
-    mounted() {
-      this.listarDonos();
+    addDono() {
+      this.$donoService.addDono(this.novo_dono).then(response => {
+        if (!response.error) {
+          this.novo_dono.dono_nome = "";
+          this.listarDonos();
+          this.prompt = false;
+          return;
+        } else {
+          throw new Error(response.error);
+        }
+      });
+    },
+    updateDono() {
+      this.$donoService
+        .updateDono(this.update_dono, this.update_dono.dono_id)
+        .then(response => {
+          if (!response.error) {
+            this.novo_dono.dono_nome = "";
+            this.listarDonos();
+            return;
+          } else {
+            throw new Error(response.error);
+          }
+        });
+    },
+    findDono(id) {
+      this.$donoService.findDono(id).then(response => {
+        if (!response.error) {
+          this.novo_dono.dono_nome = "";
+          this.listarDonos();
+          return;
+        } else {
+          throw new Error(response.error);
+        }
+      });
     }
-  };
+  },
+  mounted() {
+    this.listarDonos();
+  }
+};
 </script>

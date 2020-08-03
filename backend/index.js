@@ -9,9 +9,13 @@ const cors = require("cors");
 app.use(cors());
 
 const ControllerDonos = require("./controllers/ControllerDonos");
+const ControllerUsers = require("./controllers/ControllerUsers");
 
 const multer = require("multer");
 // const upload = multer({ dest: "uploads" });
+
+// Usa a codificacao de url do express
+app.use(express.urlencoded({ extended: false }));
 
 //Disponibiliza os arquivos estaticos da pasta uploads
 app.use("/uploads", express.static("uploads"));
@@ -51,6 +55,9 @@ app.get("/donos/servicos/:id", ControllerDonos.findAllServicos);
 app.post("/donos/pets/servicos", ControllerDonos.insertServico);
 app.delete("/donos/pets/servicos/delete/:id", ControllerDonos.deleteServico);
 app.put("/donos/pets/servicos/update", ControllerDonos.updateServico);
+
+// Rotas para criar usuário
+app.post("/register", ControllerUsers.registerUser);
 
 //Inicia a API na porta 3000
 const port = process.env.port || 3000;
