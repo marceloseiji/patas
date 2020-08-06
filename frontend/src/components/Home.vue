@@ -10,28 +10,19 @@
         transition-prev="slide-right"
         transition-next="slide-left"
       >
-        <q-carousel-slide
-          :name="1"
-          img-src="http://localhost:3000/uploads/img-carousel01.jpg"
-        >
+        <q-carousel-slide :name="1" img-src="/uploads/img-carousel01.jpg">
           <div class="absolute-bottom caption container-proj">
             <div class="text-h2">Seu PetShop</div>
             <div class="text-subtitle1">Online!</div>
           </div>
         </q-carousel-slide>
-        <q-carousel-slide
-          :name="2"
-          img-src="http://localhost:3000/uploads/img-carousel02.jpg"
-        >
+        <q-carousel-slide :name="2" img-src="/uploads/img-carousel02.jpg">
           <div class="absolute-bottom caption container-proj">
             <div class="text-h2">Cuide do seu pet</div>
             <div class="text-subtitle1">Com os melhores profissionais!</div>
           </div>
         </q-carousel-slide>
-        <q-carousel-slide
-          :name="3"
-          img-src="http://localhost:3000/uploads/img-carousel03.jpg"
-        >
+        <q-carousel-slide :name="3" img-src="/uploads/img-carousel03.jpg">
           <div class="absolute-bottom caption container-proj">
             <div class="text-h2">Escolha o melhor serviço</div>
             <div class="text-subtitle1">Facilite sua vida!</div>
@@ -42,11 +33,7 @@
     <div class="container-proj q-my-xl">
       <div class="row">
         <h2 class="title">PetShop Patas</h2>
-        <img
-          class="logo img-responsive"
-          src="../../public/images/patas-logo.png"
-          alt
-        />
+        <img class="logo img-responsive" src="../../public/images/patas-logo.png" alt />
       </div>
 
       <div class="row">

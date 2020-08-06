@@ -20,6 +20,9 @@ app.use(express.urlencoded({ extended: false }));
 //Disponibiliza os arquivos estaticos da pasta uploads
 app.use("/uploads", express.static("uploads"));
 
+//Disponibiliza arquivos estaticos que vem do VUE
+app.use(express.static("public"));
+
 //Para remover arquivos
 const fs = require("fs");
 

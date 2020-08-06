@@ -1,3 +1,5 @@
+const path = require("path");
+
 module.exports = {
   pluginOptions: {
     quasar: {
@@ -6,4 +8,7 @@ module.exports = {
     },
   },
   transpileDependencies: ["quasar"],
+  publicPath: process.env.NODE_ENV === "production" ? "/" : "/",
+
+  outputDir: path.resolve(__dirname, "../backend/public"),
 };
