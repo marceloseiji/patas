@@ -54,7 +54,7 @@ const routes = [
 ];
 
 //Instacia o router do vue
-const router = new VueRouter({ mode: "history", routes });
+const router = new VueRouter({ routes });
 
 new Vue({
   render: (h) => h(App),

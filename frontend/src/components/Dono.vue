@@ -358,6 +358,9 @@
 <script>
 // Importa moment.js
 import moment from "moment";
+import { Search } from "../../Search";
+
+let apiPath = `${Search.getUrlApi().toString()}`;
 
 export default {
   name: "Dono",
@@ -434,9 +437,7 @@ export default {
     addPet() {
       if (this.pet.pet_foto !== null) {
         this.pet.foto_path = `
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          http://localhost:3000/uploads/${Date.now()}-${
-          this.pet.pet_foto.name
-        }`;
+        ${apiPath}/uploads/${Date.now()}-${this.pet.pet_foto.name}`;
         this.pet.foto_path = this.pet.foto_path.replace(/\s/g, "");
       } else {
         this.pet.foto_path = "";

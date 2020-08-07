@@ -212,7 +212,7 @@ module.exports = {
 
     if (req.params.path != null) {
       var path = `./uploads${req.params.path.split("uploads")[1]}`;
-      // fs.unlinkSync(path);
+      fs.unlinkSync(path);
     }
 
     try {
