@@ -6,6 +6,7 @@
       color="positive q-my-sm"
       icon-right="add"
       label="Add Pet"
+      class="q-ma-md"
       @click="
         prompt = true;
         petForm = null;

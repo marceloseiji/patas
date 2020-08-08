@@ -4,7 +4,6 @@
       <q-carousel
         animated
         v-model="slide"
-        navigation
         infinite
         arrows
         transition-prev="slide-right"
@@ -33,7 +32,11 @@
     <div class="container-proj q-my-xl">
       <div class="row">
         <h2 class="title">PetShop Patas</h2>
-        <img class="logo img-responsive" src="../../public/images/patas-logo.png" alt />
+        <img
+          class="logo img-responsive"
+          src="../../public/images/patas-logo.png"
+          alt
+        />
       </div>
 
       <div class="row">

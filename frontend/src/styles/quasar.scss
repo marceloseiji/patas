@@ -1,6 +1,12 @@
-@import './quasar.variables.scss';
-@import '~quasar-styl';
+@import "./quasar.variables.scss";
+@import "~quasar-styl";
 // @import '~quasar-addon-styl';
+
+.q-menu {
+  .router-btn {
+    text-decoration: none;
+  }
+}
 
 #app {
   .router-btn {
@@ -19,19 +25,25 @@
     }
   }
 
-  .padding-top {
-    padding-top: 80px;
-  }
-
   .home {
     .q-carousel {
       height: 480px;
 
       .caption {
         color: white;
-        padding-top: 20px;
-        height: 30%;
-        background-color: #00112945;
+        padding: 1vw 15vw;
+        background-color: rgba($primary, 0.5);
+      }
+    }
+  }
+
+  .donos {
+    .user-infos {
+      flex-wrap: wrap;
+      justify-content: space-between;
+      .user-avatar {
+      }
+      .user-buttons {
       }
     }
   }

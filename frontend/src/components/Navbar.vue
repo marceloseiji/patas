@@ -1,6 +1,10 @@
 <template>
   <q-toolbar class="text-white shadow-2 navbar container-proj fixed-top">
-    <img class="q-ma-md" src="../../public/images/patas-logo-simple.png" alt="pata" />
+    <img
+      class="q-ma-md"
+      src="../../public/images/patas-logo-simple.png"
+      alt="pata"
+    />
     <span class="material-icons"></span>
 
     <router-link class="router-btn" to="/">
@@ -14,43 +18,43 @@
 </template>
 
 <script>
-  export default {
-    name: "Navbar",
-    props: {},
-    data() {
-      return {
-        link: null
+export default {
+  name: "Navbar",
+  props: {},
+  data() {
+    return {
+      link: null,
+    };
+  },
+  methods: {
+    linkClick(e, go) {
+      e.navigate = false; // we choose when we navigate
+
+      // console.log('triggering navigation in 3s')
+      setTimeout(() => {
+        // console.log('navigating as promised 3s ago')
+        go();
+      }, 3000);
+    },
+
+    buttonProps({ href, route, isActive, isExactActive }) {
+      const props = {
+        color: "black",
+        noCaps: true,
+        label: `To "${route.fullPath}"`,
+        outline: true,
+        to: href,
       };
-    },
-    methods: {
-      linkClick(e, go) {
-        e.navigate = false; // we choose when we navigate
 
-        // console.log('triggering navigation in 3s')
-        setTimeout(() => {
-          // console.log('navigating as promised 3s ago')
-          go();
-        }, 3000);
-      },
-
-      buttonProps({ href, route, isActive, isExactActive }) {
-        const props = {
-          color: "black",
-          noCaps: true,
-          label: `To "${route.fullPath}"`,
-          outline: true,
-          to: href
-        };
-
-        if (isActive === true) {
-          props.color = isExactActive === true ? "primary" : "amber-9";
-        } else {
-          props.color = "black";
-        }
-
-        return props;
+      if (isActive === true) {
+        props.color = isExactActive === true ? "primary" : "amber-9";
+      } else {
+        props.color = "black";
       }
+
+      return props;
     },
-    mounted() {}
-  };
+  },
+  mounted() {},
+};
 </script>

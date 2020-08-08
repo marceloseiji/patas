@@ -1,71 +1,98 @@
 <template>
   <div class="donos padding-top container-proj">
-    <h4>
-      Donos de pet
-      <q-btn class="q-mx-sm" unelevated round color="positive" icon="add" @click="prompt = true">
-        <q-tooltip
-          content-class="bg-positive"
-          anchor="center right"
-          self="center left"
-          content-style="font-size: 14px"
-        >Adicionar Dono</q-tooltip>
-      </q-btn>
-    </h4>
-
-    <q-list bordered separator>
-      <q-item class="q-pa-md" v-for="item in lista" v-bind:key="item.id" v-ripple>
-        <q-item-section avatar>
-          <q-avatar color="teal" text-color="white" icon="person" />
-        </q-item-section>
-        <q-item-section>{{ item.nome }}</q-item-section>
-
+    <q-item>
+      <h4>
+        Donos de pet
         <q-btn
-          class="q-mx-sm"
           unelevated
           round
           color="positive"
-          icon="visibility"
-          v-bind:to="`/donos/${item.id}`"
+          icon="add"
+          @click="prompt = true"
+          class="gt-xs"
         >
           <q-tooltip
-            content-class="bg-positive text-white"
-            anchor="top middle"
-            self="bottom middle"
+            content-class="bg-positive"
+            anchor="center right"
+            self="center left"
             content-style="font-size: 14px"
-          >Ver cliente</q-tooltip>
+            >Adicionar Dono</q-tooltip
+          >
         </q-btn>
 
-        <q-btn
-          class="q-mx-sm"
-          unelevated
-          round
-          color="primary"
-          icon="create"
-          @click="promptUpdate = true; update_dono.dono_id = item.id"
-        >
-          <q-tooltip
-            content-class="bg-primary"
-            anchor="top middle"
-            self="bottom middle"
-            content-style="font-size: 14px"
-          >Atualizar</q-tooltip>
-        </q-btn>
+        <q-btn icon="add" color="positive" class="xs" style="width: 100%" />
+      </h4>
+    </q-item>
 
-        <q-btn
-          class="q-mx-sm"
-          unelevated
-          round
-          color="red"
-          icon="delete"
-          v-on:click="deleteDono(item.id, item.nome)"
-        >
-          <q-tooltip
-            content-class="bg-red"
-            anchor="top middle"
-            self="bottom middle"
-            content-style="font-size: 14px"
-          >Excluir</q-tooltip>
-        </q-btn>
+    <q-list bordered separator>
+      <q-item
+        class="q-pa-md user-infos"
+        v-for="item in lista"
+        v-bind:key="item.id"
+        v-ripple
+      >
+        <q-item class="user-avatar">
+          <q-item-section avatar class="q-mx-sm">
+            <q-avatar color="teal" text-color="white" icon="person" />
+          </q-item-section>
+          <q-item-section>{{ item.nome }}</q-item-section>
+        </q-item>
+
+        <q-item class="user-buttons">
+          <q-btn
+            class="q-mx-sm"
+            unelevated
+            round
+            color="positive"
+            icon="visibility"
+            v-bind:to="`/donos/${item.id}`"
+          >
+            <q-tooltip
+              content-class="bg-positive text-white"
+              anchor="top middle"
+              self="bottom middle"
+              content-style="font-size: 14px"
+              >Ver cliente</q-tooltip
+            >
+          </q-btn>
+
+          <q-btn
+            class="q-mx-sm"
+            unelevated
+            round
+            color="primary"
+            icon="create"
+            @click="
+              promptUpdate = true;
+              update_dono.dono_id = item.id;
+            "
+          >
+            <q-tooltip
+              content-class="bg-primary"
+              anchor="top middle"
+              self="bottom middle"
+              content-style="font-size: 14px"
+              >Atualizar</q-tooltip
+            >
+          </q-btn>
+
+          <q-btn
+            class="q-mx-sm"
+            unelevated
+            round
+            color="red"
+            icon="delete"
+            v-on:click="deleteDono(item.id, item.nome)"
+          >
+            <q-tooltip
+              content-class="bg-red"
+              anchor="top middle"
+              self="bottom middle"
+              content-style="font-size: 14px"
+              >Excluir</q-tooltip
+            >
+          </q-btn>
+        </q-item>
       </q-item>
     </q-list>
 
@@ -77,12 +104,22 @@
         </q-card-section>
 
         <q-card-section class="q-pt-none">
-          <q-input dense v-model="novo_dono.dono_nome" autofocus @keyup.enter="addDono()" />
+          <q-input
+            dense
+            v-model="novo_dono.dono_nome"
+            autofocus
+            @keyup.enter="addDono()"
+          />
         </q-card-section>
 
         <q-card-actions align="right" class="text-primary">
           <q-btn flat label="Cancelar" v-close-popup />
-          <q-btn @click="addDono()" color="positive" label="Adicionar" v-close-popup />
+          <q-btn
+            @click="addDono()"
+            color="positive"
+            label="Adicionar"
+            v-close-popup
+          />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -99,13 +136,21 @@
             dense
             v-model="update_dono.dono_nome"
             autofocus
-            @keyup.enter="updateDono(); promptUpdate = false"
+            @keyup.enter="
+              updateDono();
+              promptUpdate = false;
+            "
           />
         </q-card-section>
 
         <q-card-actions align="right" class="text-primary">
           <q-btn flat label="Cancelar" v-close-popup />
-          <q-btn color="positive" label="Atualizar" v-close-popup v-on:click="updateDono()" />
+          <q-btn
+            color="positive"
+            label="Atualizar"
+            v-close-popup
+            v-on:click="updateDono()"
+          />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -121,16 +166,16 @@ export default {
       exibirLista: true,
       lista: null,
       novo_dono: {
-        dono_nome: null
+        dono_nome: null,
       },
       update_dono: {
         dono_id: null,
-        dono_nome: null
+        dono_nome: null,
       },
       alert: false,
       confirm: false,
       prompt: false,
-      promptUpdate: false
+      promptUpdate: false,
     };
   },
   methods: {
@@ -138,12 +183,12 @@ export default {
       this.modalConfim = true;
     },
     listarDonos() {
-      this.$donoService.getAll().then(response => {
+      this.$donoService.getAll().then((response) => {
         if (!response.error) {
-          this.lista = response.map(obj => {
+          this.lista = response.map((obj) => {
             return {
               nome: obj.dono_nome,
-              id: obj.dono_id
+              id: obj.dono_id,
             };
           });
         } else {
@@ -153,7 +198,7 @@ export default {
     },
     deleteDono(id, nome) {
       if (confirm(`Excluir ${nome}`)) {
-        this.$donoService.deleteDono(id).then(response => {
+        this.$donoService.deleteDono(id).then((response) => {
           if (!response.error) {
             this.listarDonos();
             return;
@@ -164,7 +209,7 @@ export default {
       }
     },
     addDono() {
-      this.$donoService.addDono(this.novo_dono).then(response => {
+      this.$donoService.addDono(this.novo_dono).then((response) => {
         if (!response.error) {
           this.novo_dono.dono_nome = "";
           this.listarDonos();
@@ -178,7 +223,7 @@ export default {
     updateDono() {
       this.$donoService
         .updateDono(this.update_dono, this.update_dono.dono_id)
-        .then(response => {
+        .then((response) => {
           if (!response.error) {
             this.novo_dono.dono_nome = "";
             this.listarDonos();
@@ -189,7 +234,7 @@ export default {
         });
     },
     findDono(id) {
-      this.$donoService.findDono(id).then(response => {
+      this.$donoService.findDono(id).then((response) => {
         if (!response.error) {
           this.novo_dono.dono_nome = "";
           this.listarDonos();
@@ -198,10 +243,10 @@ export default {
           throw new Error(response.error);
         }
       });
-    }
+    },
   },
   mounted() {
     this.listarDonos();
-  }
+  },
 };
 </script>

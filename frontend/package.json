@@ -13,7 +13,7 @@
     "moment": "^2.27.0",
     "quasar": "^1.0.0",
     "vue": "^2.6.10",
-    "vue-router": "^3.3.2"
+    "vue-router": "^3.4.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.12.0",
@@ -23,11 +23,11 @@
     "babel-plugin-transform-imports": "1.5.0",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
-    "node-sass": "^4.14.1",
-    "sass-loader": "^8.0.2",
+    "sass": "^1.26.10",
+    "sass-loader": "^9.0.3",
     "vue-cli-plugin-quasar": "^2.0.2",
     "vue-template-compiler": "^2.6.10",
-    "webpack": "^4.43.0"
+    "webpack": "^4.44.1"
   },
   "eslintConfig": {
     "root": true,

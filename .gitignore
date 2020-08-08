@@ -6,3 +6,4 @@ node_modules
 node_modules/
 requests.http
 uploads
+deploy.md
