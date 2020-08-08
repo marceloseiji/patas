@@ -390,6 +390,7 @@ export default {
           { label: "não sei", value: "X" },
         ],
         foto_path: null,
+        foto_newPath: null,
         pet_slug: null,
       },
       petForm: "",
@@ -469,6 +470,11 @@ export default {
       });
     },
     updatePet() {
+      if (this.pet.pet_foto !== null) {
+        this.pet.foto_newPath = `
+        ${apiPath}/uploads/${Date.now()}-${this.pet.pet_foto.name}`;
+        this.pet.foto_newPath = this.pet.foto_newPath.replace(/\s/g, "");
+      }
       this.petForm = new FormData();
       this.petForm.append("pet_nome", this.pet.pet_nome);
       this.petForm.append("pet_nascimento", this.pet.pet_nascimento);
@@ -477,6 +483,7 @@ export default {
       this.petForm.append("pet_genero", this.pet.pet_genero);
       this.petForm.append("dono_id", this.dono.id);
       this.petForm.append("foto_path", this.pet.foto_path);
+      this.petForm.append("foto_newPath", this.pet.foto_newPath);
 
       this.$donoService
         .updatePet(this.petForm, this.pet.pet_id)
@@ -490,6 +497,7 @@ export default {
               (this.pet.pet_genero = ""),
               (this.pet.pet_genero_options.value = null);
             this.pet.foto_path = "";
+            this.pet.foto_newPath = "";
             this.findAllPets();
             location.reload();
             return;

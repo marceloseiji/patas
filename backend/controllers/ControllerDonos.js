@@ -160,25 +160,37 @@ module.exports = {
     let newData = new Object();
     let id = req.params.id;
     let path = data.foto_path;
+    let newPath = data.foto_newPath;
 
-    for (item in data) {
-      if (data[item] != "null") {
-        newData[item] = data[item];
-      }
-    }
+    // for (item in data) {
+    //   if (data[item] != "null") {
+    //     newData[item] = data[item];
+    //   }
+    // }
+
+    newData = {
+      pet_nome: data.pet_nome,
+      pet_nascimento: data.pet_nascimento,
+      pet_raca: data.pet_raca,
+      pet_genero: data.pet_genero,
+      dono_id: data.dono_id,
+      foto_path: data.foto_newPath,
+    };
+    console.log(newData);
 
     //Atualiza a foto se for enviada
     if (req.files != null) {
-      // Remove a foto antiga
+      console.log("path: ", path, "  newPath: ", newPath);
 
-      console.log("Tem foto");
-      path = path.split("uploads")[1];
-      console.log(path);
-      fs.unlinkSync("uploads" + path);
+      // Remove a foto antiga
+      if (path != "") {
+        path = path.split("uploads")[1];
+        fs.unlinkSync("uploads" + path);
+      }
 
       // Adiciona a nova foto
       let file = req.files.pet_foto,
-        filename = req.body.foto_path;
+        filename = req.body.foto_newPath;
       filename = filename.replace(/\s/g, "").split("uploads")[1];
       file.mv("uploads/" + filename, (err) => {
         if (err) {
