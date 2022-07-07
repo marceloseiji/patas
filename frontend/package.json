@@ -10,7 +10,7 @@
   "dependencies": {
     "@quasar/extras": "^1.0.0",
     "core-js": "^2.6.5",
-    "moment": "^2.27.0",
+    "moment": "^2.29.4",
     "quasar": "^1.0.0",
     "vue": "^2.6.10",
     "vue-router": "^3.3.2"
